@@ -19,9 +19,8 @@ const images = galleryItems.map( e => {  // динамическая разме�
 
 refs.gallereyRef.insertAdjacentHTML('afterbegin', images); //добавляем картинки в контеинер
 
-const overlay = images;
 
-let lightbox = new SimpleLightbox('.gallery a', { overlay, images }); //используем библиотеку
+let lightbox = new SimpleLightbox('.gallery a', { captionsData:'alt'	, captionDelay : 250, enableKeyboard: true, }); //используем библиотеку
 
 
 console.log(galleryItems);

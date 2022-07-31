@@ -21,7 +21,7 @@ const images = galleryItems.map( e => {
 
 refs.containerRef.insertAdjacentHTML('afterbegin', images); //Добавляем разметку в контeинер
 
-refs.containerRef.addEventListener('click', e=>{
+refs.containerRef.addEventListener('click', e => {
   e.preventDefault();  // запрещаем переход на другую страницу
 
   const original = e.target.dataset.source; //получаем ссылку на оригинальное изображения для модалки
@@ -30,13 +30,19 @@ refs.containerRef.addEventListener('click', e=>{
     return;
   }
 
-  const instance = basicLightbox.create(`
-  <img src="${original}" width="1280" height="600">`);
-  instance.show();
-
-  refs.containerRef.addEventListener('keydown', evt=>{ // проверяем что нажата физическая клавиша Esc
+  const onModalOpen = evt =>{ // проверяем что нажата физическая клавиша Esc
     if (evt.code === 'Escape'){
       instance.close();
     }
+  };
+
+  const instance = basicLightbox.create(`
+  <img src="${original}" width="1280" height="600">`,
+  {
+    onShow: (instance) => { refs.containerRef.addEventListener('keydown',onModalOpen)},
+    onClose: (instance) => {refs.containerRef.removeEventListener('keydown', onModalOpen)},
   });
+  
+  instance.show();
+
 });
